@@ -1,0 +1,103 @@
+name: Sync upstream and release chunma edition
+
+on:
+  push:
+    branches: [master]
+  schedule:
+    - cron: '23 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: chunma-release
+  cancel-in-progress: false
+
+jobs:
+  source:
+    if: github.repository == 'chunma-san/Wand-Enhancer'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      sha: ${{ steps.source.outputs.sha }}
+      build: ${{ steps.source.outputs.build }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          ref: master
+      - name: Merge upstream without overwriting custom changes
+        id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git remote add upstream https://github.com/k1tbyte/Wand-Enhancer.git
+          git fetch upstream master
+          if ! git merge --no-edit upstream/master; then
+            git merge --abort
+            echo 'Upstream conflicts with this fork. Resolve the conflict before publishing.' >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          git push origin HEAD:master
+          sha=$(git rev-parse HEAD)
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          tag="chunma-${sha:0:12}"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo 'build=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'build=true' >> "$GITHUB_OUTPUT"
+          fi
+  build:
+    needs: source
+    if: needs.source.outputs.build == 'true'
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.source.outputs.sha }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@v5
+        with:
+          version: 10.17.0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: web-panel/pnpm-lock.yaml
+      - name: Build and run upstream validation
+        shell: pwsh
+        run: ./build.ps1 -Configuration Release
+      - name: Package binary with license and source provenance
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path release-package | Out-Null
+          Copy-Item WandEnhancer/bin/Release/WandEnhancer.exe release-package/
+          Copy-Item LICENSE.md release-package/
+          Copy-Item FORK.md release-package/
+          $sha = '${{ needs.source.outputs.sha }}'
+          "Source: https://github.com/$env:GITHUB_REPOSITORY/commit/$sha" | Set-Content release-package/BUILD.txt
+          Get-FileHash release-package/WandEnhancer.exe -Algorithm SHA256 | ForEach-Object { "$($_.Hash.ToLower())  WandEnhancer.exe" } | Set-Content release-package/SHA256SUMS.txt
+          Compress-Archive release-package/* WandEnhancer-chunma-windows.zip
+      - uses: actions/upload-artifact@v6
+        with:
+          name: WandEnhancer-chunma-windows
+          path: WandEnhancer-chunma-windows.zip
+          if-no-files-found: error
+      - name: Publish tested fork build
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $sha = '${{ needs.source.outputs.sha }}'
+          $tag = 'chunma-' + $sha.Substring(0,12)
+          $notes = "Unofficial chunma edition built from $sha. Original project: https://github.com/k1tbyte/Wand-Enhancer. Unsigned Windows executable; SHA256SUMS.txt and license included. The build runs upstream validation; live Wand compatibility is not guaranteed."
+          gh release create $tag WandEnhancer-chunma-windows.zip release-package/WandEnhancer.exe release-package/SHA256SUMS.txt --repo $env:GITHUB_REPOSITORY --target $sha --title "Wand Enhancer - $tag" --notes $notes --latest
+          if ($LASTEXITCODE -ne 0) { throw 'Release publishing failed' }

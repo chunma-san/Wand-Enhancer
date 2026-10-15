@@ -1,3 +1,29 @@
+<p align="center">
+  <a href="https://discord.com/users/891081797318897715"><img src="https://lanyard.cnrad.dev/api/891081797318897715?theme=dark&bg=0d1117&borderRadius=16px&showDisplayName=true&animated=true" alt="chunma Discord profile and activity" /></a>
+</p>
+
+# Wand Enhancer · chunma edition
+
+An unofficial fork with a midnight blue desktop theme, automatic upstream synchronization and Windows executable releases.
+
+[Download the latest fork build](https://github.com/chunma-san/Wand-Enhancer/releases/latest) · [Build status](https://github.com/chunma-san/Wand-Enhancer/actions/workflows/chunma-release.yml) · [Fork changes and maintenance](FORK.md)
+
+**Original project:** [k1tbyte/Wand-Enhancer](https://github.com/k1tbyte/Wand-Enhancer). All original credits and the Apache-2.0 license are retained. Binaries published here are unofficial builds from this fork, not upstream releases.
+
+## Download and use
+
+1. Open this fork's latest release and download `WandEnhancer-chunma-windows.zip`.
+2. Extract the ZIP; it includes `WandEnhancer.exe`, the license, build source and SHA-256 checksum.
+3. Review the upstream usage and remote-panel notes below before applying changes to your local Wand installation.
+
+The release workflow checks upstream every six hours, preserves fork commits and publishes only after the build and automated tests pass. Merge conflicts stop publication for manual review. This works on GitHub without a home server or a personal access token. See [FORK.md](FORK.md) for limitations.
+
+---
+
+## Upstream documentation
+
+The following section is retained from upstream. References to official releases describe the original project; this fork additionally publishes its own clearly labeled unsigned builds.
+
 <div align="center">
 
 ![logo](./assets/icon.svg)
