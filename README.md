@@ -1,3 +1,13 @@
+<!-- CAT-COUNTER:START -->
+## Project visits
+
+<p align="center">
+  <img src="https://count.himiku.com/@chunma-wand-enhancer-75ea2a?theme=capoo-2&amp;padding=6&amp;scale=0.8&amp;darkmode=1" alt="Cute cat project visits counter" />
+</p>
+
+
+<!-- CAT-COUNTER:END -->
+
 <!-- typing-title:start -->
 <p align="center">
   <a href="https://github.com/DenverCoder1/readme-typing-svg">
@@ -102,7 +112,6 @@ This repository does not publish official compiled binaries. Build your own exec
 *Here how you do it:*
 
 https://github.com/user-attachments/assets/7966cabe-0aa6-424d-8c2f-981ad91e0f91
-
 
 
 ## 🧩 Custom scripts
@@ -210,13 +219,3 @@ If you find this project useful, you can support its development using any of th
 > This project is a third-party enhancement tool intended solely for educational, research, and local interoperability purposes. It does not distribute any proprietary code or bypass server-side validations. All modifications are performed locally to customize the user's interface.
 
 ---
-
-<!-- CAT-COUNTER:START -->
-## Project visits
-
-<p align="center">
-  <img src="https://count.himiku.com/@chunma-wand-enhancer-75ea2a?theme=capoo-2&amp;padding=6&amp;scale=0.8&amp;darkmode=1" alt="Cute cat project visits counter" />
-</p>
-
-*Approximate README image loads since October 2026, not unique people. GitHub image caching and automated requests affect this count.*
-<!-- CAT-COUNTER:END -->
