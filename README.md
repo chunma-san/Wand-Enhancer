@@ -14,6 +14,10 @@
 </p>
 <!-- typing-title:end -->
 
+<p align="center">
+  <a href="https://discord.com/users/891081797318897715"><img src="https://lanyard.cnrad.dev/api/891081797318897715?theme=dark&bg=100b0d&borderRadius=16px&showDisplayName=true&animated=true" alt="chunma Discord profile and activity" /></a>
+</p>
+
 <!-- project-navigation:start -->
 <p align="center"><a href="https://github.com/chunma-san">Profile &amp; projects</a> · <a href="#download-and-use">Download &amp; use</a> · <a href="https://github.com/chunma-san/Wand-Enhancer/issues">Issues</a></p>
 <!-- project-navigation:end -->
