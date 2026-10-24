@@ -215,3 +215,10 @@ If you find this project useful, you can support its development using any of th
 > This project is a third-party enhancement tool intended solely for educational, research, and local interoperability purposes. It does not distribute any proprietary code or bypass server-side validations. All modifications are performed locally to customize the user's interface.
 
 ---
+
+<!-- project-maintainer-credit -->
+## Contributors
+
+- [chunma-san](https://github.com/chunma-san) — Fork maintenance and custom integration.
+
+Original contributors retain their authorship and license notices. See the repository history for individual contributions.
